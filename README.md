@@ -1,4 +1,8 @@
-# coredns-auto-ipv6-ptr
+# coredns-auto-aaaa-and-ptr
+
+This is a fork of [https://github.com/vlcty/coredns-auto-ipv6-ptr](https://github.com/vlcty/coredns-auto-ipv6-ptr). Added support for AAAA records for the dynamic PTR hostnames.
+
+## coredns-auto-ipv6-ptr
 
 Some services require that a RDNS request resolves to a PTR record. With this CoreDNS plugin, you can generate these PTR records on the fly based on the requested IPv6 address. The plugin translates the requested address and appends a suffix. Additionally, you can create a so-called presets file to answer with a "real" record if a specific request is received.
 
