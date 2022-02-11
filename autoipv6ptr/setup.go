@@ -10,7 +10,7 @@ import (
 
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
-	"github.com/caddyserver/caddy"
+	"github.com/coredns/caddy"
 )
 
 const AUTOIPV6PTR_PLUGIN_NAME string = "autoipv6ptr"
