@@ -27,7 +27,7 @@ func (v6ptr AutoIPv6PTR) ServeDNS(ctx context.Context, writer dns.ResponseWriter
 
 	if request.Question[0].Qtype == dns.TypePTR {
 		var responsePtrValue string
-	
+
 		if ptrValue, found := v6ptr.Presets[request.Question[0].Name]; found {
 			responsePtrValue = ptrValue
 		} else {
@@ -37,18 +37,18 @@ func (v6ptr AutoIPv6PTR) ServeDNS(ctx context.Context, writer dns.ResponseWriter
 			responsePtrValue = ReverseString(responsePtrValue)
 			responsePtrValue += "." + v6ptr.Suffix + "."
 		}
-	
+
 		message := new(dns.Msg)
 		message.SetReply(request)
 		hdr := dns.RR_Header{Name: request.Question[0].Name, Ttl: v6ptr.TTL, Class: dns.ClassINET, Rrtype: dns.TypePTR}
 		message.Answer = []dns.RR{&dns.PTR{Hdr: hdr, Ptr: responsePtrValue}}
-	
+
 		writer.WriteMsg(message)
 		return 0, nil
 	} else {
 		var response string
 		var responseIp net.IP
-	
+
 		response = request.Question[0].Name
 		response = RemoveSuffix(response, v6ptr.Suffix)
 		if len(response) != 32 {
@@ -56,13 +56,13 @@ func (v6ptr AutoIPv6PTR) ServeDNS(ctx context.Context, writer dns.ResponseWriter
 		}
 		response = AddColons(response)
 		responseIp = net.ParseIP(response);
-	
+
 		message := new(dns.Msg)
 		message.SetReply(request)
-		
+
 		hdr := dns.RR_Header{Name: request.Question[0].Name, Ttl: v6ptr.TTL, Class: dns.ClassINET, Rrtype: dns.TypeAAAA}
 		message.Answer = []dns.RR{&dns.AAAA{Hdr: hdr, AAAA: responseIp}}
-	
+
 		writer.WriteMsg(message)
 		return 0, nil
 	}
