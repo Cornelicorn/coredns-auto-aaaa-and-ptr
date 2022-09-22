@@ -35,6 +35,7 @@ func (v6ptr AutoIPv6PTR) ServeDNS(ctx context.Context, writer dns.ResponseWriter
 			responsePtrValue = RemoveIP6DotArpa(responsePtrValue)
 			responsePtrValue = RemoveDots(responsePtrValue)
 			responsePtrValue = ReverseString(responsePtrValue)
+			responsePtrValue = AddHyphens(responsePtrValue)
 			responsePtrValue += "." + v6ptr.Suffix + "."
 		}
 
@@ -51,6 +52,7 @@ func (v6ptr AutoIPv6PTR) ServeDNS(ctx context.Context, writer dns.ResponseWriter
 
 		response = request.Question[0].Name
 		response = RemoveSuffix(response, v6ptr.Suffix)
+		response = RemoveHyphens(response)
 		if len(response) != 32 {
 			return plugin.NextOrFailure(v6ptr.Name(), v6ptr.Next, ctx, writer, request)
 		}
@@ -73,6 +75,10 @@ func AddColons(input string) string {
 	return input[0:4] + ":" + input[4:8] + ":" + input[8:12] + ":" + input[12:16] + ":" + input[16:20] + ":" + input[20:24] + ":" + input[24:28] + ":" + input[28:]
 }
 
+func AddHyphens(input string) string {
+	return input[0:4] + "-" + input[4:8] + "-" + input[8:12] + "-" + input[12:16] + "-" + input[16:20] + "-" + input[20:24] + "-" + input[24:28] + "-" + input[28:]
+}
+
 func RemoveSuffix(input string, suffix string) string {
 	return input[:len(input) - len(suffix) - 2]
 }
@@ -83,6 +89,10 @@ func RemoveIP6DotArpa(input string) string {
 
 func RemoveDots(input string) string {
     return strings.ReplaceAll(input, ".", "")
+}
+
+func RemoveHyphens(input string) string {
+    return strings.ReplaceAll(input, "-", "")
 }
 
 func ReverseString(input string) string {

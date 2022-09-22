@@ -8,7 +8,7 @@ Some services require that a RDNS request resolves to a PTR record. With this Co
 
 Examples:
 
-1) `2001:db8:300:b002:5054:ff:fe4b:db44` could be translated to `20010db80300b002505400fffe4bdb44.mydomain.tld`
+1) `2001:db8:300:b002:5054:ff:fe4b:db44` could be translated to `2001-0db8-0300-b002-5054-00ff-fe4b-db44.mydomain.tld`
 2) `2001:db8:300:b002:5054:ff:fe4b:db45` could be translated to `myhost.mydomain.tld` via the presets file
 
 ## Presets
@@ -27,7 +27,8 @@ Let's say the plugin receives a PTR request for `4.4.b.d.b.4.e.f.f.f.0.0.4.5.0.5
 1) Strip `.ip6.arpa.`: `4.4.b.d.b.4.e.f.f.f.0.0.4.5.0.5.2.0.0.b.0.0.3.0.8.b.d.0.1.0.0.2`
 2) Remove all dots: `44bdb4efff004505200b00308bd01002`
 3) Reverse the string: `20010db80300b002505400fffe4bdb44`
-4) Append the suffix and return the result: `20010db80300b002505400fffe4bdb44.mydomain.tld`
+4) Add hyphens: `2001-0db8-0300-b002-5054-00ff-fe4b-db44`
+5) Append the suffix and return the result: `20010db80300b002505400fffe4bdb44.mydomain.tld`
 
 ## Corefile example
 
